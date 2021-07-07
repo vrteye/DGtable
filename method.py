@@ -13,7 +13,7 @@ def File_List(url):
     # 提供全链接，去除文本中的换行符;结果返回一个列表，每个段落装在字符串,整体装在列表，打印出来。
     file = open(url, encoding='utf-8')
     file = list(file)
-    file = [x for x in file if x != '\n']
+    file = [str(x).replace('\n', '') for x in file if x != '\n']  # 去掉换行符
     # 如果要装在字符串中
     # str_file = ''.join(file)
     return file
