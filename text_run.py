@@ -18,4 +18,4 @@ with tqdm(total=len(fpath)) as bar:        # 进度条
             tradeKey = tradeKeyall[0]       # 年报唯一id
             reportName = tradeKeyall[1]     # xx年度报告
             year = tradeKeyall[2]       # 年度
-            Authoritylimitassets(path, tradeKey)
+            # Authoritylimitassets(path, tradeKey)

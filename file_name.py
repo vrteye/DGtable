@@ -19,6 +19,4 @@ for i in range(len(data)):
         tradeKey = tradeKeyall[0]
         reportName = tradeKeyall[1]
         year = tradeKeyall[2]
-        companyInfo(path, tradeKey, data[i])
-        companyYearReport(tradeKey, reportName, year)
-        Authoritylimitassets(path, tradeKey)
+

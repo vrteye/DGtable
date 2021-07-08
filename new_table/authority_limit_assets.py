@@ -21,30 +21,20 @@ def Authoritylimitassets(path, tradeKey):
         # f = get_str_btw(f, '、应收账款', '、预付款项')
         df = CutOutM(f, '、所有权或使用权受到限制的资产', '、外币货币性项目')
 
-        df = df.fillna(0)
-        df = df.replace(np.nan, '')
-        df = df.replace('--', 0)
-        df.drop(0, inplace=True)
-        df.drop(1, inplace=True)
-        df.drop(2, inplace=True)
+        df = df.fillna('')
 
-        # df.drop(df.tail(1).index, inplace=True)  # 删除最后一行数据
-        df.reset_index(inplace=True, drop=True)
+        df = df.replace(np.nan, '')
+        df = df.replace('--', '')
+        print(df)
         Listkeys = df.keys()
         tableIndex = df[Listkeys[0]]
-        jsonText = {'DG': []}
-        # print(Listkeys)
-        # print(tableIndex)
-        # print('&' * 100)
         jsonText = {'DG': []}
         # print(df)
         for item in df.iterrows():
             # print('item[1]:',item[1][-1])
-            itemName = item[1][0]  # 账龄
-            lastAccountValue = item[1][1]  # 期初余额-金额
-            firstAccountRate = round(float(str(item[1][2]).strip('%')) / 100, 4)  # 期初余额-比例
-            lastAccountAmount = item[1][3]  # 期末余额-金额
-            lastAccountRate = round(float(str(item[1][4]).strip('%')) / 100, 4)  # 期末余额-比例
+            itemName = item[1][0]  # 项目
+            lastAccountValue = round(float(str(item[1][1])), 4)  # 期末账面价值
+            limitReason = item[1][2]  # 期初余额-比例
 
             # print('itemName:', itemName, 'firstSurplusAmount:',
             #       firstSurplusAmount, 'exchangerateAddAmount:', enterpriseMergelAddAmount, 'otherAddAmount:',
@@ -55,18 +45,15 @@ def Authoritylimitassets(path, tradeKey):
             jsonText['DG'].append(
                 {'itemName': itemName,
                  'lastAccountValue': lastAccountValue,
-                 'firstAccountRate': firstAccountRate,
-                 'lastAccountAmount': lastAccountAmount,
-                 'lastAccountRate': lastAccountRate,
+                 'limitReason': limitReason,
                  'tradeKey': tradeKey})  # 键值对设置，添加
         dgdata = jsonText['DG']
         #
         jsonData = json.dumps(dgdata, indent=4, separators=(',', ': '), ensure_ascii=False)
         # print(jsonData)
         data = json.loads(jsonData)
-        # print(data)
-        # print(data)
-        Success = requests.post('http://192.168.1.200:9008/authorityLimitAssets/add', json=data)
+        print(data)
+        Success = requests.post('http://192.168.1.32:9008/authorityLimitAssets/add', json=data)
         print(Success)
 
     except Exception as e:
