@@ -1,11 +1,11 @@
-import requests
-from basic import *
+
 
 """
 在建工程情况（doing_project_state）
 """
 
-
+import requests
+from basic import *
 def Doingprojectstate(path, tradeKey):
     # print(tradeKey)
     try:

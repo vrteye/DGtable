@@ -7,17 +7,12 @@ from basic import *
 
 
 def Creditdecrvalueloss(path, tradeKey):
-    # print(tradeKey)
-    # f = open(path, "r", encoding="utf-8").read()
-    # f = get_str_btw(f, '、合并财务报表项目注释', '、合并范围的变更')
-    # df = CutOutML(f, '按账龄披露', '其中重要的其他应收款核销情况：')
     try:
         f = open(path, "r", encoding="utf-8").read()
         f = get_str_btw(f, '、合并财务报表项目注释', '、合并范围的变更')
         # f = get_str_btw(f, '、应收账款', '、预付款项')
-        df = CutOutM(f, '、所有权或使用权受到限制的资产', '、外币货币性项目')
+        df = CutOutM(f, '、信用减值损失', '、资产减值损失')
 
-        df = df.fillna('')
 
         df = df.replace(np.nan, '')
         df = df.replace('--', '')
@@ -30,7 +25,10 @@ def Creditdecrvalueloss(path, tradeKey):
             # print('item[1]:',item[1][-1])
             itemName = item[1][0]  # 项目
             currentOccurAmount = round(float(str(item[1][1])), 4)  # 期末账面价值
-            previousOccurAmount = item[1][2]  # 期初余额-比例
+            try:
+                previousOccurAmount = round(float(str(item[1][2])), 4)  # 期初余额-比例
+            except:
+                previousOccurAmount = ''
 
             # print('itemName:', itemName, 'firstSurplusAmount:',
             #       firstSurplusAmount, 'exchangerateAddAmount:', enterpriseMergelAddAmount, 'otherAddAmount:',
@@ -49,7 +47,7 @@ def Creditdecrvalueloss(path, tradeKey):
         # print(jsonData)
         data = json.loads(jsonData)
         print(data)
-        Success = requests.post('http://192.168.1.32:9008/creditDecrValueLoss/add', json=data)
+        Success = requests.post('http://192.168.1.200:9008/creditDecrValueLoss/add', json=data)
         print(Success)
 
     except Exception as e:

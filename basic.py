@@ -3,6 +3,7 @@ import re
 import json
 import requests
 import pandas as pd
+from lxml import etree
 
 
 def File_Eli(path):
@@ -165,23 +166,30 @@ def tradekey(path):
     global tradeKey, reportName, year
     try:
         f = open(path, "r", encoding="utf-8").read()
-        content = get_str_btw(f, '公司实物销售收入是否大于劳务收入', '公司已签订的重大销售合同截至本报告期的履行情况')
-        dfx = pd.read_html(content, encoding='utf-8', header=0)[0]
-        year = dfx.columns.tolist()[3]  # 列名
+        # content = get_str_btw(f, '公司实物销售收入是否大于劳务收入', '公司已签订的重大销售合同截至本报告期的履行情况')
+        # dfx = pd.read_html(content, encoding='utf-8', header=0)[0]
+        # year = dfx.columns.tolist()[3]  # 列名
+        content = get_str_btw(f, '有限公司', '年度报告')
+        response = etree.HTML(text=content)
+        year = response.xpath('string(.)')
+        if len(year) < 15:
 
-        # col_name = dfx.columns.tolist()  # 列名
-        # df = pd.read_html(content, encoding='utf-8', header=None)[0]
-        types = '年度报告'
-        html1 = get_str_btw(f, '、公司信息', '、联系人和联系方式')
-        dfx = pd.read_html(html1, encoding='utf-8', header=0)[0]
-        stockCode11 = dfx.columns.tolist()[3]
-        year_report_id11 = year + '_' + stockCode11 + '_' + types
-        reportName = year + types
-        reportName = reportName.replace(' ', '')
-        tradeKey = year_report_id11.replace(' ', '')
-        # print(tradeKey)
-        year = year.replace(' 年', '')
+
+            # col_name = dfx.columns.tolist()  # 列名
+            # df = pd.read_html(content, encoding='utf-8', header=None)[0]
+            types = '年度报告'
+            html1 = get_str_btw(f, '、公司信息', '、联系人和联系方式')
+            dfx = pd.read_html(html1, encoding='utf-8', header=0)[0]
+            stockCode11 = dfx.columns.tolist()[3]
+            year_report_id11 = year + '_' + stockCode11 + '_' + types
+            reportName = year + types
+            reportName = reportName.replace(' ', '')
+            tradeKey = year_report_id11.replace(' ', '')
+            print(tradeKey)
+            # print(tradeKey)
+            year = year.replace(' 年', '')
     except Exception as e:
+        print(e)
         pass
     return tradeKey, reportName, year
 

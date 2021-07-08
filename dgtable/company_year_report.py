@@ -15,7 +15,7 @@ def companyYearReport(tradeKey, reportName, year):
         }
         # print(company_year_report_data)
         Success = requests.post(company_year_report_url, json=company_year_report_data)
-        print(Success)
+        # print(Success)
     except Exception as e:
         print(e)
         pass

@@ -63,5 +63,3 @@ with tqdm(total=len(fpath)) as bar:        # 进度条
             Revenueaccountreveal(path, tradeKey)
             Revenueitem(path, tradeKey)
             Suppliersalescondition(path, tradeKey)
-
-

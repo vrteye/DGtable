@@ -71,7 +71,7 @@ def companyInfo(Path, tradeKey, srcFileName):
         data = json.loads(jsonData)
         companyInfo_url = "http://192.168.1.200:9008/companyInfo/add"
         Success = requests.post(companyInfo_url, json=data)
-        print(Success)
+        # print(Success)
     except Exception as e:
         print(e)
         pass

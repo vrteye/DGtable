@@ -1,3 +1,4 @@
+from setting import *
 from dgtable.accept_labour_state import *
 from dgtable.accounting_financial_data import *
 from dgtable.assets_decr_value_loss import *
@@ -46,7 +47,6 @@ from dgtable.supplier_sales_condition import *
 
 from new_table.authority_limit_assets import *
 from new_table.credit_decr_value_loss import *
-from new_table.industry_category import *
 from new_table.intangible_assets_detail import *
 from new_table.non_often_loss_profit_item import *
 from new_table.quarterly_finance_target import *
